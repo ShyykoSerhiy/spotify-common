@@ -1,0 +1,23 @@
+{
+  "name": "spotify-common",
+  "version": "1.0.0",
+  "description": "Common code for vscode-spotify and spotify-teams",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShyykoSerhiy/spotify-common.git"
+  },
+  "author": "shyyko.serhiy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShyykoSerhiy/spotify-common/issues"
+  },
+  "homepage": "https://github.com/ShyykoSerhiy/spotify-common#readme",
+  "devDependencies": {
+    "standard-version": "^4.4.0"
+  }
+}
