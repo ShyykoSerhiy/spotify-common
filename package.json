@@ -1,6 +1,6 @@
 {
   "name": "spotify-common",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Common code for vscode-spotify and spotify-teams",
   "main": "./lib/spotify/api.js",
   "types": "./lib/spotify/api.d.ts",
@@ -24,7 +24,7 @@
     "standard-version": "^4.4.0",
     "typescript": "^3.0.3"
   },
-  "dependencies": {    
+  "dependencies": {
     "node-fetch": "^2.2.0"
   }
 }
