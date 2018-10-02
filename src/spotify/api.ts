@@ -1,4 +1,6 @@
-import { Device, Playlist, Track, User } from "./consts";
+import { Device, Playlist, Track, User, Player } from "./consts";
+import fetch, { RequestInit } from 'node-fetch';
+import { URLSearchParams } from 'url';
 
 export const apiUrl = 'https://api.spotify.com/v1/';
 export const GET = { 'method': 'GET' }
@@ -14,24 +16,28 @@ const getHeaders = (token: string) => {
     }
 }
 
-const queryParamsHelper = (url: string, queryPrams: { [key: string]: string | undefined }) => {
+const queryParamsHelper = (url: string, queryPrams: { [key: string]: string | boolean | number | undefined }) => {
     const sP = Object.keys(queryPrams).reduce((searchParams, key) => {
         const v = queryPrams[key];
         if (v != null) {
-            searchParams.set(key, v);
+            searchParams.set(key, v + '');
         }
         return searchParams;
     }, new URLSearchParams()).toString();
     return sP ? `${url}?${sP}` : url;
 }
 
-export const getApi = (token: string, refreshToken: string) => {
+export const getApi = (spotifyAuthServer: string, token: string, refreshToken: string, onTokenRefreshed?: (token: string) => void) => {
     let headers = getHeaders(token);
 
     const refreshTokenFunc = async () => {
         const searchParams = new URLSearchParams();
         searchParams.set('refresh_token', refreshToken);
-        return ((await (await fetch(`/refresh_token?${searchParams.toString()}`)).json()) as { 'access_token': string }).access_token;
+        const response = await fetch(`${spotifyAuthServer}/refresh_token?${searchParams.toString()}`);
+        if (!response.ok) {
+            throw new Error(`Failed to refresh token: ${await response.text()}`);
+        }
+        return ((await response.json()) as { 'access_token': string }).access_token;
     };
 
     const makeRequest = async <T>(urlPart: string, options: RequestInit, retry = false): Promise<T> => {
@@ -47,6 +53,7 @@ export const getApi = (token: string, refreshToken: string) => {
             if (!retry) {
                 // try to refresh token
                 token = await refreshTokenFunc();
+                onTokenRefreshed && onTokenRefreshed(token);
                 headers = getHeaders(token);
                 return makeRequest(urlPart, { ...options, ...headers }, true) as Promise<T>;
             } else {
@@ -65,6 +72,11 @@ export const getApi = (token: string, refreshToken: string) => {
             }
         },
         player: {
+            get: async () => {
+                return makeRequest<Player>('me/player', {
+                    ...GET, ...headers
+                });
+            },
             devices: {
                 get: async () => {
                     return makeRequest<{ devices: Device[] }>('me/player/devices', {
@@ -84,6 +96,48 @@ export const getApi = (token: string, refreshToken: string) => {
                         body, ...PUT, ...headers
                     });
                 }
+            },
+            pause: {
+                put: async (deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/pause`, { 'device_id': deviceId }), {
+                        ...PUT, ...headers
+                    });
+                }
+            },
+            previous: {
+                post: async (deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/previous`, { 'device_id': deviceId }), {
+                        ...POST, ...headers
+                    });
+                }
+            },
+            next: {
+                post: async (deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/next`, { 'device_id': deviceId }), {
+                        ...POST, ...headers
+                    });
+                }
+            },
+            shuffle: {
+                put: async (state: boolean, deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/shuffle`, { state, 'device_id': deviceId }), {
+                        ...PUT, ...headers
+                    });
+                }
+            },
+            repeat: {
+                put: async (state: "track" | "context" | "off", deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/repeat`, { state, 'device_id': deviceId }), {
+                        ...PUT, ...headers
+                    });
+                }
+            },
+            volume: {
+                put: async (volumePersent: number, deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/volume`, { 'volume_percent': volumePersent, 'device_id': deviceId }), {
+                        ...PUT, ...headers
+                    });
+                }
             }
         },
         playlists: {
@@ -98,7 +152,7 @@ export const getApi = (token: string, refreshToken: string) => {
                     const userId = playlist.owner.id;
                     const playlistId = playlist.id
                     const sP = Object.keys(opt).reduce((searchParams, key) => {
-                        searchParams.set(key, opt[key]);
+                        searchParams.set(key, ((opt as any)[key]) as string);
                         return searchParams;
                     }, new URLSearchParams());
                     return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(`users/${userId}/playlists/${playlistId}/tracks?${sP.toString()}`, {
@@ -122,16 +176,9 @@ export const getApi = (token: string, refreshToken: string) => {
                     return tracks;
                 }
             }
-        },
-        token: {
-            get: async () => {
-                const searchParams = new URLSearchParams();
-                searchParams.set('refresh_token', refreshToken);
-                return (await (await fetch(`/refresh_token?${searchParams.toString()}`)).text());
-            }
         }
     }
 };
 
-const tempAPI = getApi('', '');
+const tempAPI = getApi('', '', '');
 export type Api = typeof tempAPI;
