@@ -1,5 +1,5 @@
 {
-  "name": "vscode-spotify-common",
+  "name": "spotify-common",
   "version": "1.0.0",
   "description": "Common code for vscode-spotify and spotify-teams",
   "main": "./lib/spotify/api.js",
