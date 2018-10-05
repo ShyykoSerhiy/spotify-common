@@ -162,7 +162,11 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
         };
     };
     playlists: {
-        get: () => Promise<{
+        get: (options?: {
+            fields?: string | undefined;
+            limit?: number | undefined;
+            offset?: number | undefined;
+        } | undefined) => Promise<{
             items: {
                 "collaborative": boolean;
                 "external_urls": {
@@ -196,7 +200,41 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
                 "type": string;
                 "uri": string;
             }[];
+            total: number;
         }>;
+        getAll(): Promise<{
+            "collaborative": boolean;
+            "external_urls": {
+                "spotify": string;
+            };
+            "href": string;
+            "id": string;
+            "images": {
+                "height": number;
+                "url": string;
+                "width": number;
+            }[];
+            "name": string;
+            "owner": {
+                "display_name": string;
+                "external_urls": {
+                    "spotify": string;
+                };
+                "href": string;
+                "id": string;
+                "type": string;
+                "uri": string;
+            };
+            "primary_color": null;
+            "public": boolean;
+            "snapshot_id": string;
+            "tracks": {
+                "href": string;
+                "total": number;
+            };
+            "type": string;
+            "uri": string;
+        }[]>;
         tracks: {
             get: (playlist: {
                 "collaborative": boolean;
@@ -470,7 +508,11 @@ declare const tempAPI: {
         };
     };
     playlists: {
-        get: () => Promise<{
+        get: (options?: {
+            fields?: string | undefined;
+            limit?: number | undefined;
+            offset?: number | undefined;
+        } | undefined) => Promise<{
             items: {
                 "collaborative": boolean;
                 "external_urls": {
@@ -504,7 +546,41 @@ declare const tempAPI: {
                 "type": string;
                 "uri": string;
             }[];
+            total: number;
         }>;
+        getAll(): Promise<{
+            "collaborative": boolean;
+            "external_urls": {
+                "spotify": string;
+            };
+            "href": string;
+            "id": string;
+            "images": {
+                "height": number;
+                "url": string;
+                "width": number;
+            }[];
+            "name": string;
+            "owner": {
+                "display_name": string;
+                "external_urls": {
+                    "spotify": string;
+                };
+                "href": string;
+                "id": string;
+                "type": string;
+                "uri": string;
+            };
+            "primary_color": null;
+            "public": boolean;
+            "snapshot_id": string;
+            "tracks": {
+                "href": string;
+                "total": number;
+            };
+            "type": string;
+            "uri": string;
+        }[]>;
         tracks: {
             get: (playlist: {
                 "collaborative": boolean;
