@@ -16,8 +16,8 @@ const getHeaders = (token: string) => {
     }
 }
 
-const queryParamsHelper = (url: string, queryPrams: { [key: string]: string | boolean | number | undefined }) => {
-    const sP = Object.keys(queryPrams).reduce((searchParams, key) => {
+const queryParamsHelper = (url: string, queryPrams?: { [key: string]: string | boolean | number | undefined }) => {
+    const sP = queryPrams && Object.keys(queryPrams).reduce((searchParams, key) => {
         const v = queryPrams[key];
         if (v != null) {
             searchParams.set(key, v + '');
@@ -141,21 +141,34 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
             }
         },
         playlists: {
-            get: async () => {
-                return makeRequest<{ items: Playlist[] }>('me/playlists', {
+            get: async (options?: { fields?: string, limit?: number, offset?: number }) => {
+                const opt = { limit: 50, offset: 0, ...options };
+                return makeRequest<{ items: Playlist[], total: number }>(queryParamsHelper('me/playlists', opt), {
                     ...GET, ...headers
                 });
+            },
+            async getAll() {
+                let tracks = [] as Playlist[];
+                const limit = 50;
+                let getOperations = 1;
+                let i = 0;
+                let offset = 0;
+                while (i < getOperations) {
+                    const res = await this.get({ limit, offset });
+                    i++;
+                    offset += limit;
+                    getOperations = Math.ceil(res.total / limit);
+                    tracks = tracks.concat(res.items);
+                }
+
+                return tracks;
             },
             tracks: {
                 get: async (playlist: Playlist, options?: { fields?: string, limit?: number, offset?: number }) => {
                     const opt = { fields: 'items(track(id,name,uri,album(id,name),artists(id,name))),limit,offset,total', limit: 100, offset: 0, ...options };
                     const userId = playlist.owner.id;
                     const playlistId = playlist.id
-                    const sP = Object.keys(opt).reduce((searchParams, key) => {
-                        searchParams.set(key, ((opt as any)[key]) as string);
-                        return searchParams;
-                    }, new URLSearchParams());
-                    return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(`users/${userId}/playlists/${playlistId}/tracks?${sP.toString()}`, {
+                    return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(queryParamsHelper(`users/${userId}/playlists/${playlistId}/tracks`, opt), {
                         ...GET, ...headers
                     });
                 },
