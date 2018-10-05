@@ -1,12 +1,12 @@
 {
   "name": "@vscodespotify/spotify-common",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Common code for vscode-spotify and spotify-teams",
   "main": "./lib/spotify/api.js",
   "types": "./lib/spotify/api.d.ts",
   "scripts": {
     "compile": "./node_modules/.bin/tsc",
-    "release": "standard-version",
+    "release": "npm run compile && standard-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
