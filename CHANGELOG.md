@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/ShyykoSerhiy/spotify-common/compare/v1.2.2...v1.3.0) (2019-07-14)
+
+
+### Features
+
+* Get a User's Saved Tracks ([338849f](https://github.com/ShyykoSerhiy/spotify-common/commit/338849f))
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/ShyykoSerhiy/spotify-common/compare/v1.2.1...v1.2.2) (2018-10-05)
 
