@@ -69,6 +69,30 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                 return makeRequest<User>('me', {
                     ...GET, ...headers
                 });
+            },
+            tracks: {
+                get: async (options?: { fields?: string, limit?: number, offset?: number }) => {
+                    const opt = { fields: 'items(track(id,name,uri,album(id,name),artists(id,name))),limit,offset,total', limit: 100, offset: 0, ...options };
+                    return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(queryParamsHelper(`me/tracks`, opt), {
+                        ...GET, ...headers
+                    });
+                },
+                async getAll() {
+                    let tracks = [] as Track[];
+                    const limit = 50;
+                    let getOperations = 1;
+                    let i = 0;
+                    let offset = 0;
+                    while (i < getOperations) {
+                        const res = await this.get({ limit, offset });
+                        i++;
+                        offset += limit;
+                        getOperations = Math.ceil(res.total / limit);
+                        tracks = tracks.concat(res.items);
+                    }
+
+                    return tracks;
+                }
             }
         },
         player: {

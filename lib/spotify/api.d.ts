@@ -33,6 +33,59 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
             "type": string;
             "uri": string;
         }>;
+        tracks: {
+            get: (options?: {
+                fields?: string | undefined;
+                limit?: number | undefined;
+                offset?: number | undefined;
+            } | undefined) => Promise<{
+                items: {
+                    "track": {
+                        "album": {
+                            "id": string;
+                            "name": string;
+                        };
+                        "artists": {
+                            "external_urls": {
+                                "spotify": string;
+                            };
+                            "href": string;
+                            "id": string;
+                            "name": string;
+                            "type": string;
+                            "uri": string;
+                        }[];
+                        "id": string;
+                        "name": string;
+                        "uri": string;
+                    };
+                }[];
+                limit: number;
+                offset: number;
+                total: number;
+            }>;
+            getAll(): Promise<{
+                "track": {
+                    "album": {
+                        "id": string;
+                        "name": string;
+                    };
+                    "artists": {
+                        "external_urls": {
+                            "spotify": string;
+                        };
+                        "href": string;
+                        "id": string;
+                        "name": string;
+                        "type": string;
+                        "uri": string;
+                    }[];
+                    "id": string;
+                    "name": string;
+                    "uri": string;
+                };
+            }[]>;
+        };
     };
     player: {
         get: () => Promise<{
@@ -379,6 +432,59 @@ declare const tempAPI: {
             "type": string;
             "uri": string;
         }>;
+        tracks: {
+            get: (options?: {
+                fields?: string | undefined;
+                limit?: number | undefined;
+                offset?: number | undefined;
+            } | undefined) => Promise<{
+                items: {
+                    "track": {
+                        "album": {
+                            "id": string;
+                            "name": string;
+                        };
+                        "artists": {
+                            "external_urls": {
+                                "spotify": string;
+                            };
+                            "href": string;
+                            "id": string;
+                            "name": string;
+                            "type": string;
+                            "uri": string;
+                        }[];
+                        "id": string;
+                        "name": string;
+                        "uri": string;
+                    };
+                }[];
+                limit: number;
+                offset: number;
+                total: number;
+            }>;
+            getAll(): Promise<{
+                "track": {
+                    "album": {
+                        "id": string;
+                        "name": string;
+                    };
+                    "artists": {
+                        "external_urls": {
+                            "spotify": string;
+                        };
+                        "href": string;
+                        "id": string;
+                        "name": string;
+                        "type": string;
+                        "uri": string;
+                    }[];
+                    "id": string;
+                    "name": string;
+                    "uri": string;
+                };
+            }[]>;
+        };
     };
     player: {
         get: () => Promise<{
