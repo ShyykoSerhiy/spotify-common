@@ -21,7 +21,7 @@
   "homepage": "https://github.com/ShyykoSerhiy/spotify-common#readme",
   "devDependencies": {
     "@types/node-fetch": "^2.1.2",
-    "standard-version": "^4.4.0",
+    "standard-version": "^8.0.1",
     "typescript": "^3.5.2"
   },
   "dependencies": {
