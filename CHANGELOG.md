@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/ShyykoSerhiy/spotify-common/compare/v1.4.0...v1.4.1) (2020-10-03)
+
+
+### Bug Fixes
+
+* recompiler ([ac1a9c4](https://github.com/ShyykoSerhiy/spotify-common/commit/ac1a9c4fa3f232be54dcb49d1145b57523a6138c))
+
 ## [1.4.0](https://github.com/ShyykoSerhiy/spotify-common/compare/v1.3.0...v1.4.0) (2020-10-03)
 
 
