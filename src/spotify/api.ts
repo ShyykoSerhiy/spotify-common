@@ -162,6 +162,13 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                         ...PUT, ...headers
                     });
                 }
+            },
+            seek: {
+                put: async (positionMs: number, deviceId?: string) => {
+                    return makeRequest<void>(queryParamsHelper(`me/player/seek`, { 'position_ms': positionMs, 'device_id': deviceId }), {
+                        ...PUT, ...headers
+                    })
+                }
             }
         },
         playlists: {
