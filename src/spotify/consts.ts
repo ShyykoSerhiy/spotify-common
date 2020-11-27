@@ -8,63 +8,137 @@ export const deviceExample = {
     "type": "Computer",
     "volume_percent": 100
 };
-export const playlistExample = {
-    "collaborative": false,
-    "external_urls": {
-        "spotify": "https://open.spotify.com/user/shyyko.serhiy/playlist/1hHZ6mhBdVZjr3OwGciflY"
-    },
-    "href": "https://api.spotify.com/v1/users/shyyko.serhiy/playlists/1hHZ6mhBdVZjr3OwGciflY",
-    "id": "1hHZ6mhBdVZjr3OwGciflY",
-    "images": [
-        {
-            "height": 640,
-            "url": "https://i.scdn.co/image/7bb2ddeeed3584a12bf0d5ba28744f1a513cfe5e",
-            "width": 640
-        }
-    ],
-    "name": "Cro",
-    "owner": {
-        "display_name": "Serhiy Shyyko",
-        "external_urls": {
-            "spotify": "https://open.spotify.com/user/shyyko.serhiy"
-        },
-        "href": "https://api.spotify.com/v1/users/shyyko.serhiy",
-        "id": "shyyko.serhiy",
-        "type": "user",
-        "uri": "spotify:user:shyyko.serhiy"
-    },
-    "primary_color": null,
-    "public": true,
-    "snapshot_id": "Myw5ZGZiZGY4MDFjZWMzY2U1MmQ1OTBmOGFiY2I0MTJkYmM3MjJhNjRj",
-    "tracks": {
-        "href": "https://api.spotify.com/v1/users/shyyko.serhiy/playlists/1hHZ6mhBdVZjr3OwGciflY/tracks",
-        "total": 32
-    },
-    "type": "playlist",
-    "uri": "spotify:user:shyyko.serhiy:playlist:1hHZ6mhBdVZjr3OwGciflY"
+export type Playlist = {
+    collaborative: boolean;
+    external_urls: {
+        spotify: string;
+    };
+    href: string;
+    id: string;
+    images: {
+        height: number;
+        url: string;
+        width: number;
+    }[];
+    name: string;
+    owner: {
+        display_name: string;
+        external_urls: {
+            spotify: string;
+        };
+        href: string;
+        id: string;
+        type: string;
+        uri: string;
+    };
+    primary_color: null;
+    public: boolean;
+    snapshot_id: string;
+    tracks: {
+        href: string;
+        total: number;
+    };
+    type: string;
+    uri: string;
 };
-export const trackExample = {
-    "track": {
-        "album": {
-            "id": "1LdR3si9EGC2Eav5Arcn0T",
-            "name": "That Dress"
-        },
-        "artists": [
-            {
-                "external_urls": {
-                    "spotify": "https://open.spotify.com/artist/3uhfMjcE5HJqMIWh3Iolw0"
-                },
-                "href": "https://api.spotify.com/v1/artists/3uhfMjcE5HJqMIWh3Iolw0",
-                "id": "3uhfMjcE5HJqMIWh3Iolw0",
-                "name": "The Pale White",
-                "type": "artist",
-                "uri": "spotify:artist:3uhfMjcE5HJqMIWh3Iolw0"
-            }
-        ],
-        "id": "4I9qjUCx8jFQkFFi5Eyt5x",
-        "name": "That Dress",
-        "uri": "spotify:track:4I9qjUCx8jFQkFFi5Eyt5x"
-    }
+export type Album = {
+    added_at: string;
+    album: {
+        album_type: string;
+        artists: {
+            external_urls: {
+                spotify: string;
+            };
+            href: string;
+            id: string;
+            name: string;
+            type: string;
+            uri: string;
+        }[];
+        available_markets: string[];
+        copyrights: {
+            text: string;
+            type: string;
+        }[];
+        external_ids: {
+            upc: string;
+        };
+        external_urls: {
+            spotify: string;
+        };
+        genres: never[];
+        href: string;
+        id: string;
+        images: {
+            height: number;
+            url: string;
+            width: number;
+        }[];
+        label: string;
+        name: string;
+        popularity: number;
+        release_date: string;
+        release_date_precision: string;
+        total_tracks: number;
+        tracks: {
+            href: string;
+            items: {
+                artists: {
+                    external_urls: {
+                        spotify: string;
+                    };
+                    href: string;
+                    id: string;
+                    name: string;
+                    type: string;
+                    uri: string;
+                }[];
+                available_markets: string[];
+                disc_number: number;
+                duration_ms: number;
+                explicit: boolean;
+                external_urls: {
+                    spotify: string;
+                };
+                href: string;
+                id: string;
+                is_local: boolean;
+                name: string;
+                preview_url: string;
+                track_number: number;
+                type: string;
+                uri: string;
+            }[];
+            limit: number;
+            next: null;
+            offset: number;
+            previous: null;
+            total: number;
+        };
+        type: string;
+        uri: string;
+    };
+};
+export type Track = {
+    track: {
+        album: {
+            id: string;
+            name: string;
+        };
+        artists: {
+            external_urls: {
+                spotify: string;
+            };
+            href: string;
+            id: string;
+            name: string;
+            type: string;
+            uri: string;
+        }[];
+        id: string;
+        name: string;
+        uri: string;
+    };
 };
 
 export const userExample = {
@@ -203,7 +277,5 @@ const playerExample = {
 };
 
 export type Device = typeof deviceExample;
-export type Playlist = typeof playlistExample;
-export type Track = typeof trackExample;
 export type User = typeof userExample;
 export type Player = typeof playerExample;
