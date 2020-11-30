@@ -1,4 +1,4 @@
-import { Device, Playlist, Track } from "./consts";
+import { Album, Device, Playlist, Track } from "./consts";
 export declare const apiUrl = "https://api.spotify.com/v1/";
 export declare const GET: {
     method: string;
@@ -45,27 +45,7 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
                 offset: number;
                 total: number;
             }>;
-            getAll(): Promise<{
-                track: {
-                    album: {
-                        id: string;
-                        name: string;
-                    };
-                    artists: {
-                        external_urls: {
-                            spotify: string;
-                        };
-                        href: string;
-                        id: string;
-                        name: string;
-                        type: string;
-                        uri: string;
-                    }[];
-                    id: string;
-                    name: string;
-                    uri: string;
-                };
-            }[]>;
+            getAll(): Promise<Track[]>;
         };
     };
     player: {
@@ -199,39 +179,7 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
             items: Playlist[];
             total: number;
         }>;
-        getAll(): Promise<{
-            collaborative: boolean;
-            external_urls: {
-                spotify: string;
-            };
-            href: string;
-            id: string;
-            images: {
-                height: number;
-                url: string;
-                width: number;
-            }[];
-            name: string;
-            owner: {
-                display_name: string;
-                external_urls: {
-                    spotify: string;
-                };
-                href: string;
-                id: string;
-                type: string;
-                uri: string;
-            };
-            primary_color: null;
-            public: boolean;
-            snapshot_id: string;
-            tracks: {
-                href: string;
-                total: number;
-            };
-            type: string;
-            uri: string;
-        }[]>;
+        getAll(): Promise<Playlist[]>;
         tracks: {
             get: (playlist: Playlist, options?: {
                 fields?: string | undefined;
@@ -243,27 +191,21 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
                 offset: number;
                 total: number;
             }>;
-            getAll(playlist: Playlist): Promise<{
-                track: {
-                    album: {
-                        id: string;
-                        name: string;
-                    };
-                    artists: {
-                        external_urls: {
-                            spotify: string;
-                        };
-                        href: string;
-                        id: string;
-                        name: string;
-                        type: string;
-                        uri: string;
-                    }[];
-                    id: string;
-                    name: string;
-                    uri: string;
-                };
-            }[]>;
+            getAll(playlist: Playlist): Promise<Track[]>;
+        };
+    };
+    albums: {
+        get: (options?: {
+            fields?: string | undefined;
+            limit?: number | undefined;
+            offset?: number | undefined;
+        } | undefined) => Promise<{
+            items: Album[];
+            total: number;
+        }>;
+        getAll(): Promise<Album[]>;
+        tracks: {
+            getAll({ album }: Album): Promise<Track[]>;
         };
     };
 };
@@ -303,27 +245,7 @@ declare const tempAPI: {
                 offset: number;
                 total: number;
             }>;
-            getAll(): Promise<{
-                track: {
-                    album: {
-                        id: string;
-                        name: string;
-                    };
-                    artists: {
-                        external_urls: {
-                            spotify: string;
-                        };
-                        href: string;
-                        id: string;
-                        name: string;
-                        type: string;
-                        uri: string;
-                    }[];
-                    id: string;
-                    name: string;
-                    uri: string;
-                };
-            }[]>;
+            getAll(): Promise<Track[]>;
         };
     };
     player: {
@@ -457,39 +379,7 @@ declare const tempAPI: {
             items: Playlist[];
             total: number;
         }>;
-        getAll(): Promise<{
-            collaborative: boolean;
-            external_urls: {
-                spotify: string;
-            };
-            href: string;
-            id: string;
-            images: {
-                height: number;
-                url: string;
-                width: number;
-            }[];
-            name: string;
-            owner: {
-                display_name: string;
-                external_urls: {
-                    spotify: string;
-                };
-                href: string;
-                id: string;
-                type: string;
-                uri: string;
-            };
-            primary_color: null;
-            public: boolean;
-            snapshot_id: string;
-            tracks: {
-                href: string;
-                total: number;
-            };
-            type: string;
-            uri: string;
-        }[]>;
+        getAll(): Promise<Playlist[]>;
         tracks: {
             get: (playlist: Playlist, options?: {
                 fields?: string | undefined;
@@ -501,27 +391,21 @@ declare const tempAPI: {
                 offset: number;
                 total: number;
             }>;
-            getAll(playlist: Playlist): Promise<{
-                track: {
-                    album: {
-                        id: string;
-                        name: string;
-                    };
-                    artists: {
-                        external_urls: {
-                            spotify: string;
-                        };
-                        href: string;
-                        id: string;
-                        name: string;
-                        type: string;
-                        uri: string;
-                    }[];
-                    id: string;
-                    name: string;
-                    uri: string;
-                };
-            }[]>;
+            getAll(playlist: Playlist): Promise<Track[]>;
+        };
+    };
+    albums: {
+        get: (options?: {
+            fields?: string | undefined;
+            limit?: number | undefined;
+            offset?: number | undefined;
+        } | undefined) => Promise<{
+            items: Album[];
+            total: number;
+        }>;
+        getAll(): Promise<Album[]>;
+        tracks: {
+            getAll({ album }: Album): Promise<Track[]>;
         };
     };
 };

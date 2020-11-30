@@ -7,7 +7,7 @@ export declare const deviceExample: {
     type: string;
     volume_percent: number;
 };
-export declare const playlistExample: {
+export declare type Playlist = {
     collaborative: boolean;
     external_urls: {
         spotify: string;
@@ -40,7 +40,85 @@ export declare const playlistExample: {
     type: string;
     uri: string;
 };
-export declare const trackExample: {
+export declare type Album = {
+    added_at: string;
+    album: {
+        album_type: string;
+        artists: {
+            external_urls: {
+                spotify: string;
+            };
+            href: string;
+            id: string;
+            name: string;
+            type: string;
+            uri: string;
+        }[];
+        available_markets: string[];
+        copyrights: {
+            text: string;
+            type: string;
+        }[];
+        external_ids: {
+            upc: string;
+        };
+        external_urls: {
+            spotify: string;
+        };
+        genres: never[];
+        href: string;
+        id: string;
+        images: {
+            height: number;
+            url: string;
+            width: number;
+        }[];
+        label: string;
+        name: string;
+        popularity: number;
+        release_date: string;
+        release_date_precision: string;
+        total_tracks: number;
+        tracks: {
+            href: string;
+            items: {
+                artists: {
+                    external_urls: {
+                        spotify: string;
+                    };
+                    href: string;
+                    id: string;
+                    name: string;
+                    type: string;
+                    uri: string;
+                }[];
+                available_markets: string[];
+                disc_number: number;
+                duration_ms: number;
+                explicit: boolean;
+                external_urls: {
+                    spotify: string;
+                };
+                href: string;
+                id: string;
+                is_local: boolean;
+                name: string;
+                preview_url: string;
+                track_number: number;
+                type: string;
+                uri: string;
+            }[];
+            limit: number;
+            next: null;
+            offset: number;
+            previous: null;
+            total: number;
+        };
+        type: string;
+        uri: string;
+    };
+};
+export declare type Track = {
     track: {
         album: {
             id: string;
@@ -171,8 +249,6 @@ declare const playerExample: {
     is_playing: boolean;
 };
 export declare type Device = typeof deviceExample;
-export declare type Playlist = typeof playlistExample;
-export declare type Track = typeof trackExample;
 export declare type User = typeof userExample;
 export declare type Player = typeof playerExample;
 export {};

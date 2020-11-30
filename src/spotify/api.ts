@@ -1,4 +1,4 @@
-import { Device, Playlist, Track, User, Player } from "./consts";
+import { Album, Device, Playlist, Track, User, Player } from "./consts";
 import fetch, { RequestInit } from 'node-fetch';
 import { URLSearchParams } from 'url';
 
@@ -220,7 +220,46 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     return tracks;
                 }
             }
-        }
+        },
+        albums: {
+            get: async (options?: {
+              fields?: string;
+              limit?: number;
+              offset?: number;
+            }) => {
+              const opt = { limit: 50, offset: 0, ...options };
+              return makeRequest<{ items: Album[]; total: number }>(
+                queryParamsHelper("me/albums", opt),
+                {
+                  ...GET,
+                  ...headers,
+                }
+              );
+            },
+            async getAll() {
+              let albums: Album[] = [];
+              const limit = 50;
+              let getOperations = 1;
+              let i = 0;
+              let offset = 0;
+              while (i < getOperations) {
+                const res = await this.get({ limit, offset });
+                i++;
+                offset += limit;
+                getOperations = Math.ceil(res.total / limit);
+                albums = albums.concat(res.items);
+              }
+      
+              return albums;
+            },
+            tracks: {
+              async getAll({ album }: Album): Promise<Track[]> {
+                return album.tracks.items.map((track) => ({
+                  track: { ...track, album: { id: album.id, name: album.name } },
+                }));
+              },
+            },
+          },
     }
 };
 
