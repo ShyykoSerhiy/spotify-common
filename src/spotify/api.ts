@@ -6,6 +6,7 @@ export const apiUrl = 'https://api.spotify.com/v1/';
 export const GET = { 'method': 'GET' }
 export const POST = { 'method': 'POST' };
 export const PUT = { 'method': 'PUT' };
+export const DELETE = { 'method': 'DELETE' };
 
 const getHeaders = (token: string) => {
     return {
@@ -93,7 +94,7 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
 
                     return tracks;
                 },
-                // Put on tracks is treated as liking the song
+                // Treated as liking the song
                 put: async ( trackUri?: string ) => {
                     const body = JSON.stringify({
                         ...(trackUri ? { "uris": [trackUri] } : {})
@@ -101,6 +102,23 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     return makeRequest<void>(queryParamsHelper(`me/tracks`, { 'ids': trackUri }), {
                         body, ...PUT, ...headers
                     });
+                },
+                // Treated as unliking the song
+                delete: async ( trackUri?: string ) => {
+                    const body = JSON.stringify({
+                        ...(trackUri ? { "uris": [trackUri] } : {})
+                    });
+                    return makeRequest<void>(queryParamsHelper(`me/tracks`, { 'ids': trackUri }), {
+                        body, ...DELETE, ...headers
+                    });
+                },
+                contains: {
+                    get: async (options?: { fields?: string, limit?: number, offset?: number }) => {
+                        const opt = { fields: 'items(track(id,name,uri,album(id,name),artists(id,name))),limit,offset,total', limit: 100, offset: 0, ...options };
+                        return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(queryParamsHelper(`me/tracks/contains`, opt), {
+                            ...GET, ...headers
+                        });
+                    }
                 }
             }
         },

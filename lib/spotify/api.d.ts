@@ -9,6 +9,9 @@ export declare const POST: {
 export declare const PUT: {
     method: string;
 };
+export declare const DELETE: {
+    method: string;
+};
 export declare const getApi: (spotifyAuthServer: string, token: string, refreshToken: string, onTokenRefreshed?: ((token: string) => void) | undefined) => {
     me: {
         get: () => Promise<{
@@ -46,9 +49,20 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
                 total: number;
             }>;
             getAll(): Promise<Track[]>;
-            put: (params: {
-                trackUri?: string | undefined;
-            }) => Promise<void>;
+            put: (trackUri?: string | undefined) => Promise<void>;
+            delete: (trackUri?: string | undefined) => Promise<void>;
+            contains: {
+                get: (options?: {
+                    fields?: string | undefined;
+                    limit?: number | undefined;
+                    offset?: number | undefined;
+                } | undefined) => Promise<{
+                    items: Track[];
+                    limit: number;
+                    offset: number;
+                    total: number;
+                }>;
+            };
         };
     };
     player: {
@@ -249,9 +263,20 @@ declare const tempAPI: {
                 total: number;
             }>;
             getAll(): Promise<Track[]>;
-            put: (params: {
-                trackUri?: string | undefined;
-            }) => Promise<void>;
+            put: (trackUri?: string | undefined) => Promise<void>;
+            delete: (trackUri?: string | undefined) => Promise<void>;
+            contains: {
+                get: (options?: {
+                    fields?: string | undefined;
+                    limit?: number | undefined;
+                    offset?: number | undefined;
+                } | undefined) => Promise<{
+                    items: Track[];
+                    limit: number;
+                    offset: number;
+                    total: number;
+                }>;
+            };
         };
     };
     player: {
