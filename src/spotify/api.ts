@@ -114,7 +114,7 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                 },
                 contains: {
                     get: async ( trackUri?: string ) => {
-                        return await makeRequest<void>(queryParamsHelper(`me/tracks/contains`, { 'ids': trackUri }), {
+                        return await makeRequest<boolean[]>(queryParamsHelper(`me/tracks/contains`, { 'ids': trackUri }), {
                             ...GET, ...headers
                         });
                     }
