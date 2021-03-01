@@ -52,16 +52,7 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
             put: (trackUri?: string | undefined) => Promise<void>;
             delete: (trackUri?: string | undefined) => Promise<void>;
             contains: {
-                get: (options?: {
-                    fields?: string | undefined;
-                    limit?: number | undefined;
-                    offset?: number | undefined;
-                } | undefined) => Promise<{
-                    items: Track[];
-                    limit: number;
-                    offset: number;
-                    total: number;
-                }>;
+                get: (trackUri?: string | undefined) => Promise<void>;
             };
         };
     };
@@ -266,16 +257,7 @@ declare const tempAPI: {
             put: (trackUri?: string | undefined) => Promise<void>;
             delete: (trackUri?: string | undefined) => Promise<void>;
             contains: {
-                get: (options?: {
-                    fields?: string | undefined;
-                    limit?: number | undefined;
-                    offset?: number | undefined;
-                } | undefined) => Promise<{
-                    items: Track[];
-                    limit: number;
-                    offset: number;
-                    total: number;
-                }>;
+                get: (trackUri?: string | undefined) => Promise<void>;
             };
         };
     };

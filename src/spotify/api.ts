@@ -113,9 +113,8 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     });
                 },
                 contains: {
-                    get: async (options?: { fields?: string, limit?: number, offset?: number }) => {
-                        const opt = { fields: 'items(track(id,name,uri,album(id,name),artists(id,name))),limit,offset,total', limit: 100, offset: 0, ...options };
-                        return await makeRequest<{ items: Track[], limit: number, offset: number, total: number }>(queryParamsHelper(`me/tracks/contains`, opt), {
+                    get: async ( trackUri?: string ) => {
+                        return await makeRequest<void>(queryParamsHelper(`me/tracks/contains`, { 'ids': trackUri }), {
                             ...GET, ...headers
                         });
                     }
