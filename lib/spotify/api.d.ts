@@ -50,9 +50,9 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
             }>;
             getAll(): Promise<Track[]>;
             put: (trackUri?: string | undefined) => Promise<void>;
-            delete: (trackUri: string) => Promise<void>;
+            delete: (trackUri?: string | undefined) => Promise<void>;
             contains: {
-                get: (trackUri: string) => Promise<boolean[]>;
+                get: (trackUri?: string | undefined) => Promise<boolean[]>;
             };
         };
     };
@@ -255,9 +255,9 @@ declare const tempAPI: {
             }>;
             getAll(): Promise<Track[]>;
             put: (trackUri?: string | undefined) => Promise<void>;
-            delete: (trackUri: string) => Promise<void>;
+            delete: (trackUri?: string | undefined) => Promise<void>;
             contains: {
-                get: (trackUri: string) => Promise<boolean[]>;
+                get: (trackUri?: string | undefined) => Promise<boolean[]>;
             };
         };
     };

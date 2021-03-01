@@ -104,7 +104,7 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     });
                 },
                 // Treated as unliking the song
-                delete: async ( trackUri: string ) => {
+                delete: async ( trackUri?: string ) => {
                     const body = JSON.stringify({
                         ...(trackUri ? { "uris": [trackUri] } : {})
                     });
@@ -113,7 +113,7 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     });
                 },
                 contains: {
-                    get: async ( trackUri: string ) => {
+                    get: async ( trackUri?: string ) => {
                         return await makeRequest<boolean[]>(queryParamsHelper(`me/tracks/contains`, { 'ids': trackUri }), {
                             ...GET, ...headers
                         });
