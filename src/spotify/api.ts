@@ -92,6 +92,16 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     }
 
                     return tracks;
+                },
+                // Put on tracks is treated as liking the song
+                put: async (params: { trackUri?: string }) => {
+                    const { trackUri } = params;
+                    const body = JSON.stringify({
+                        ...(trackUri ? { "uris": [trackUri] } : {})
+                    });
+                    return makeRequest<void>(queryParamsHelper(`me/tracks`, { 'ids': trackUri }), {
+                        body, ...PUT, ...headers
+                    });
                 }
             }
         },

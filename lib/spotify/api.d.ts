@@ -46,6 +46,9 @@ export declare const getApi: (spotifyAuthServer: string, token: string, refreshT
                 total: number;
             }>;
             getAll(): Promise<Track[]>;
+            put: (params: {
+                trackUri?: string | undefined;
+            }) => Promise<void>;
         };
     };
     player: {
@@ -246,6 +249,9 @@ declare const tempAPI: {
                 total: number;
             }>;
             getAll(): Promise<Track[]>;
+            put: (params: {
+                trackUri?: string | undefined;
+            }) => Promise<void>;
         };
     };
     player: {
