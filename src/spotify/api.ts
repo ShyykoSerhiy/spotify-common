@@ -1,4 +1,4 @@
-import { Album, Device, Playlist, Track, User, Player } from "./consts";
+import { Album, Device, Playlist, Track, User, Player, currentlyPlaying } from "./consts";
 import fetch, { RequestInit } from 'node-fetch';
 import { URLSearchParams } from 'url';
 
@@ -195,6 +195,13 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                         ...PUT, ...headers
                     })
                 }
+            },
+            currentlyPlaying: {
+                get: async () => {
+                    return makeRequest<currentlyPlaying>('me/player/currently-playing', {
+                        ...GET, ...headers
+                    });
+                },
             }
         },
         playlists: {
