@@ -1,4 +1,4 @@
-import { Album, Device, Playlist, Track, User, Player } from "./consts";
+import { Album, Device, Playlist, Track, User, Player, currentlyPlaying } from "./consts";
 import fetch, { RequestInit } from 'node-fetch';
 import { URLSearchParams } from 'url';
 
@@ -6,6 +6,7 @@ export const apiUrl = 'https://api.spotify.com/v1/';
 export const GET = { 'method': 'GET' }
 export const POST = { 'method': 'POST' };
 export const PUT = { 'method': 'PUT' };
+export const DELETE = { 'method': 'DELETE' };
 
 const getHeaders = (token: string) => {
     return {
@@ -92,6 +93,31 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                     }
 
                     return tracks;
+                },
+                // Treated as liking the song
+                put: async ( trackUri?: string ) => {
+                    const body = JSON.stringify({
+                        ...(trackUri ? { "uris": [trackUri] } : {})
+                    });
+                    return makeRequest<void>(queryParamsHelper(`me/tracks`, { 'ids': trackUri }), {
+                        body, ...PUT, ...headers
+                    });
+                },
+                // Treated as unliking the song
+                delete: async ( trackUri?: string ) => {
+                    const body = JSON.stringify({
+                        ...(trackUri ? { "uris": [trackUri] } : {})
+                    });
+                    return makeRequest<void>(queryParamsHelper(`me/tracks`, { 'ids': trackUri }), {
+                        body, ...DELETE, ...headers
+                    });
+                },
+                contains: {
+                    get: async ( trackUri?: string ) => {
+                        return await makeRequest<boolean[]>(queryParamsHelper(`me/tracks/contains`, { 'ids': trackUri }), {
+                            ...GET, ...headers
+                        });
+                    }
                 }
             }
         },
@@ -169,6 +195,13 @@ export const getApi = (spotifyAuthServer: string, token: string, refreshToken: s
                         ...PUT, ...headers
                     })
                 }
+            },
+            currentlyPlaying: {
+                get: async () => {
+                    return makeRequest<currentlyPlaying>('me/player/currently-playing', {
+                        ...GET, ...headers
+                    });
+                },
             }
         },
         playlists: {
